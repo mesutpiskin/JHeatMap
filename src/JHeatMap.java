@@ -13,7 +13,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 
-public class HeatMap {
+public class JHeatMap {
     private static final int HALFCIRCLEPICSIZE = 32;
     private static final String CIRCLEPIC = "bolilla.png";
     private static final String SPECTRUMPIC = "colors.png";
