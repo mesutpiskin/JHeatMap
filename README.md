@@ -4,10 +4,31 @@
 
 **TR:** Java ile yoğunluk haritası oluşturma. RunHeatMap sınıfı nasıl kullanacağını gösterir. Bu sınıf (JHeatMap) için parametre olarak liste ve arka plan resmi gereklidir. Parametreleri ayarla ve bu sınıfı (RunHeatMap) çalıştır, hepsi bu kadar.
 
-Examples:
+Usage:
 
-![GitHub Logo](http://i.imgur.com/W0YCvkM.png)
-![GitHub Logo](https://community.uservoice.com/wp-content/uploads/heatmap-f-shape-800x371.jpg)
-![GitHub Logo](http://outsideoftheboot.com/wp-content/uploads/2012/11/spurs-heat-map.png)
+      public static void generateHeatmap() {
+            List<Point> points = new ArrayList<Point>(); 
+            for (int i = 0; i < 1000; i++) {
+                int x = (int) (Math.random() * 200);
+                int y = (int) (Math.random() * 200);
+                Point p = new Point(x,y);
+                points.add(p);
+            }
+            BufferedImage input = null;
+            //import heatmap background image
+            final String originalImage = "heatmapBackground.png";
+            input = loadImage(originalImage);
+            final HeatMap myMap = new HeatMap(points, input);
+            //Export heatmap image
+            saveImage(myMap.createHeatMap(0.3f),"heatmap.png");
+        }
+
+
+Results:
+
+![heatmap](http://i.imgur.com/W0YCvkM.png)
+![heatmap](http://mesutpiskin.com/blog/wp-content/uploads/2018/04/heatmap-640x480.jpeg)
+![heatmap](https://community.uservoice.com/wp-content/uploads/heatmap-f-shape-800x371.jpg)
+
 
 Thanks for help software-talk.org
