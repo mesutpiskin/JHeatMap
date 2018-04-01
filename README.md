@@ -7,6 +7,7 @@
 Usage:
 
       public static void generateHeatmap() {
+            //Generate heatmap 2d point (x,y) data
             List<Point> points = new ArrayList<Point>(); 
             for (int i = 0; i < 1000; i++) {
                 int x = (int) (Math.random() * 200);
