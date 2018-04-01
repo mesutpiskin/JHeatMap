@@ -19,6 +19,7 @@ Usage:
             //import heatmap background image
             final String originalImage = "heatmapBackground.png";
             input = loadImage(originalImage);
+            //Create a heatmap from the data and add it to the background
             final HeatMap myMap = new HeatMap(points, input);
             //Export heatmap image
             saveImage(myMap.createHeatMap(0.3f),"heatmap.png");
