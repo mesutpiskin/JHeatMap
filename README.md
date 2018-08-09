@@ -1,3 +1,4 @@
+![jAVA](https://img.shields.io/badge/Language-Java-red.svg)
 # JHeatMap
 
 **EN:** A heat map is a two-dimensional representation of data in which values are represented by colors. A simple heat map provides an immediate visual summary of information. More elaborate heat maps allow the viewer to understand complex data sets. Heat map generation with java. The RunHeatMap class demonstrates how to use it. For this class (JHeatMap), list and background image are required as parameters. Set the parameters and run this class (RunHeatMap), that's all.
