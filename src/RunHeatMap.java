@@ -20,7 +20,7 @@ public class RunHeatMap {
         BufferedImage input = null;
         final String originalImage = "C:\\Users\\mesutpiskin\\Desktop\\background.png";
         input = loadImage(originalImage);
-        final HeatMap myMap = new HeatMap(points, input);
+        final JHeatMap myMap = new JHeatMap(points, input);
         
         saveImage(myMap.createHeatMap(0.3f),"C:\\Users\\mesutpiskin\\Desktop\\output.png");
     }

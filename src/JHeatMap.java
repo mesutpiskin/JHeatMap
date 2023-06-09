@@ -23,7 +23,7 @@ public class JHeatMap {
     private int maxYValue;
     private final BufferedImage lvlMap;
 
-    public HeatMap(final List<Point> points,BufferedImage lvlMap) {
+    public JHeatMap(final List<Point> points,BufferedImage lvlMap) {
         this.lvlMap = lvlMap;
         initMap(points);
     }
