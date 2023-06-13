@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -23,19 +22,17 @@ public class JHeatMap {
     private int maxYValue;
     private final BufferedImage lvlMap;
 
-    public HeatMap(final List<Point> points,BufferedImage lvlMap) {
+    public JHeatMap(final List<Point> points,BufferedImage lvlMap) {
         this.lvlMap = lvlMap;
         initMap(points);
     }
     private void initMap(final List<Point> points) {
-        map = new HashMap<Integer, List<Point>>();
+        map = new HashMap<>();
         final BufferedImage mapPic = lvlMap;
         maxXValue = mapPic.getWidth();
         maxYValue = mapPic.getHeight();
 
-        final int pointSize = points.size();
-        for (int i = 0; i < pointSize; i++) {
-            final Point point = points.get(i);
+        for (final Point point : points) {
             // add point to correct list.
             final int hash = getkey(point);
             if (map.containsKey(hash)) {
@@ -46,7 +43,7 @@ public class JHeatMap {
                 }
                 // if list did not exist, create new one and add point.
             } else {
-                final List<Point> newList = new LinkedList<Point>();
+                final List<Point> newList = new LinkedList<>();
                 newList.add(point);
                 map.put(hash, newList);
             }
@@ -65,12 +62,9 @@ public class JHeatMap {
 
         final BufferedImage circle = loadImage(CIRCLEPIC);
         BufferedImage heatMap = new BufferedImage(maxXValue, maxYValue, 6);
-        paintInColor(heatMap, Color.white);
+        paintInColor(heatMap);
 
-        final Iterator<List<Point>> iterator = map.values().iterator();
-        while (iterator.hasNext()) {
-            final List<Point> currentPoints = iterator.next();
-
+        for (List<Point> currentPoints : map.values()) {
             // calculate opaqueness
             // based on number of occurences of current point
             float opaque = currentPoints.size() / (float) maxOccurance;
@@ -91,7 +85,7 @@ public class JHeatMap {
                     (currentPoint.y - HALFCIRCLEPICSIZE));
         }
         // negate the image
-        heatMap = negateImage(heatMap);
+        negateImage(heatMap);
 
         // remap black/white with color spectrum from white over red, orange,
         // yellow, green to blue
@@ -99,7 +93,7 @@ public class JHeatMap {
 
         // blend image over lvlMap at opacity 40%
         final BufferedImage output = lvlMap;
-        addImage(output, heatMap, 0.4f);
+        addImage(output, heatMap);
 
         // save image
         return output;
@@ -148,9 +142,8 @@ public class JHeatMap {
      * returns a negated version of this image.
      *
      * @param img buffer to negate
-     * @return negated buffer
      */
-    private BufferedImage negateImage(final BufferedImage img) {
+    private void negateImage(final BufferedImage img) {
         final int width = img.getWidth();
         final int height = img.getHeight();
         for (int x = 0; x < width; x++) {
@@ -171,33 +164,18 @@ public class JHeatMap {
                 img.setRGB(x, y, (r << 16) | (g << 8) | b);
             }
         }
-        return img;
     }
 
     /**
      * changes all pixel in the buffer to the provided color.
      *
      * @param buff buffer
-     * @param color color
      */
-    private void paintInColor(final BufferedImage buff, final Color color) {
+    private void paintInColor(final BufferedImage buff) {
         final Graphics2D g2 = buff.createGraphics();
-        g2.setColor(color);
+        g2.setColor(Color.white);
         g2.fillRect(0, 0, buff.getWidth(), buff.getHeight());
         g2.dispose();
-    }
-
-    /**
-     * changes the opacity of the image.
-     *
-     * @param buff1 buffer to change opacity
-     * @param opaque new opacity
-     */
-    private void makeTransparent(final BufferedImage buff1, final float opaque) {
-        final Graphics2D g2d = buff1.createGraphics();
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, opaque));
-        g2d.drawImage(buff1, 0, 0, null);
-        g2d.dispose();
     }
 
     /**
@@ -206,11 +184,9 @@ public class JHeatMap {
      *
      * @param buff1 buffer
      * @param buff2 buffer to add to buff1
-     * @param opaque opacity
      */
-    private void addImage(final BufferedImage buff1, final BufferedImage buff2,
-            final float opaque) {
-        addImage(buff1, buff2, opaque, 0, 0);
+    private void addImage(final BufferedImage buff1, final BufferedImage buff2) {
+        addImage(buff1, buff2, (float) 0.4, 0, 0);
     }
 
     /**
@@ -231,20 +207,6 @@ public class JHeatMap {
         g2d.dispose();
     }
 
-    /**
-     * saves the image in the provided buffer to the destination.
-     *
-     * @param buff buffer to be saved
-     * @param dest destination to save at
-     */
-    /*  private void saveImage(final BufferedImage buff, final String dest) {
-        try {
-            final File outputfile = new File(dest);
-            ImageIO.write(buff, "png", outputfile);
-        } catch (final IOException e) {
-            print("error saving the image: " + dest + ": " + e);
-        }
-    }*/
     /**
      * returns a BufferedImage from the Image provided.
      *
@@ -269,14 +231,5 @@ public class JHeatMap {
      */
     private int getkey(final Point p) {
         return ((p.x << 19) | (p.y << 7));
-    }
-
-    /**
-     * prints string to sto.
-     *
-     * @param s string to print
-     */
-    private void print(final String s) {
-        System.out.println(s);
     }
 }
